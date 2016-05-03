@@ -2,6 +2,7 @@
 % Please edit documentation in R/allenBrain.R
 \name{getGeneDataset}
 \alias{getGeneDataset}
+\title{Acquire datasets for genes}
 \usage{
 getGeneDataset(gene, planeOfSection = c("sagittal", "coronal"))
 }
@@ -12,5 +13,8 @@ getGeneDataset(gene, planeOfSection = c("sagittal", "coronal"))
 }
 \value{
 Dataset ID of the first section dataset matching the description
+}
+\description{
+Acquire datasets for genes
 }
 

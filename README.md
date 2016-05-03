@@ -16,8 +16,16 @@ devtools::github_install('oganm/allenBrain')
 
 ## Example usage
 ``` r
+IDs = getStructureIDs()
+
+# get the id of the desired region
+granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
+
 # get the dataset for the desired gene
 datasetID = getGeneDataset(gene = 'Prox1',planeOfSection = 'sagittal')
+
+granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
+
 
 # get the slide that has the desired brain region and coordinates of the center of the region
 imageID = getImageID(datasetID = datasetID, regionID = granuleID)

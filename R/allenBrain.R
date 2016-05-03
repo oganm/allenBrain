@@ -83,18 +83,21 @@ dowloadImage = function(imageID,output,view = c('expression','projection'),downs
 
 #' Center and crop the image
 #' @export
-centerImage = function(imageFile, x ,y , xProportion = 0.2, yProportion =0.2 , outputFile){
+centerImage = function(imageFile, x ,y , xProportions = c(0.1,0.1), yProportions =c(0.1,0.1) , outputFile){
     image = jpeg::readJPEG(imageFile, native=TRUE)
     
     
 
-    sizeX = (dim(image)[2]*xProportion) %>% round
-    sizeY = (dim(image)[1]*yProportion) %>% round
+    sizeX = (dim(image)[2]*(xProportions[1] + xProportions[2])) %>% round
+    sizeY = (dim(image)[1]*(yProportions[1] +yProportions[2])) %>% round
     
-    beginningX = round(x) - round(sizeX/2)
-    beginningY = round(y) - round(sizeY/2)
+    shiftX = (dim(image)[2]*(xProportions[1])) %>% round
+    shiftY = (dim(image)[1]*(yProportions[1])) %>% round
     
-    system(paste0('convert ',imageFile, ' -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' ',outputFile))
+    beginningX = round(x) - shiftX
+    beginningY = round(y) - shiftY
+    
+    system(paste0('convert "',imageFile, '" -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' "',outputFile,'"'))
     
     
     #output  = image[beginningY:(beginningY+sizeY), beginningX:(beginningX + sizeX)] 

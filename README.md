@@ -36,7 +36,7 @@ dowloadImage(imageID["imageID"], view = 'projection',output = 'image.jpg')
 # crop the slide so that the desired brain region is in the center
 centerImage(imageFile = 'image.jpg', x = imageID['x'],
             y= imageID['y'],
-            xProportion = .2,
-            yProportion =.2,
+            xProportions = c(.1,.1),
+            yProportion =c(.1,.1),
             outputFile = 'cropped.jpg')
 ```

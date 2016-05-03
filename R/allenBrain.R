@@ -31,6 +31,26 @@ getGeneDatasets = function(gene,
     }) %>% return()
 }
 
+#' Acquire a list of structure ids
+#' @return A data frame with 2 columns. All names are in lower case
+#' @export
+getStructureIDs = function(){
+    tree = RCurl::getURL('http://api.brain-map.org/api/v2/structure_graph_download/1.json')
+    tree = gsub('null','-9999',tree)
+    
+    abaRegions = RJSONIO::fromJSON(tree)[[6]]
+    abaRegions %<>% unlist(recursive=T)
+    IDs = abaRegions[abaRegions %>%
+                         names %>% 
+                         grepl(pattern = '(^|\\.)id',x = .)]
+    IDs[IDs == -9999] = NA
+    IDs %<>%  as.numeric
+    names = abaRegions[abaRegions %>%
+                           names %>% 
+                           grepl(pattern = 'name',x = .)] %>% tolower
+    
+    return(data.frame(id = IDs, name = names))
+}
 
 #' Acquire image id centered on the region
 #' @return A named list including the ID of the image and coordinates of the brain region

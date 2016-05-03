@@ -16,13 +16,14 @@ devtools::github_install('oganm/allenBrain')
 
 ## Example usage
 ``` r
+# get a list of structure names and ids
 IDs = getStructureIDs()
 
 # get the id of the desired region
 granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
 
-# get the dataset for the desired gene
-datasetID = getGeneDataset(gene = 'Prox1',planeOfSection = 'sagittal')
+# get the dataset for the desired gene (the first saggital experiment that did not fail)
+datasetID = getGeneDatasets(gene = 'Prox1',planeOfSection = 'sagittal')[1]
 
 granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
 

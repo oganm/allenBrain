@@ -4,8 +4,8 @@
 \alias{centerImage}
 \title{Center and crop the image}
 \usage{
-centerImage(imageFile, x, y, xProportion = 0.2, yProportion = 0.2,
-  outputFile)
+centerImage(imageFile, x, y, xProportions = c(0.1, 0.1),
+  yProportions = c(0.1, 0.1), outputFile)
 }
 \description{
 Center and crop the image

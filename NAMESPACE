@@ -2,6 +2,5 @@
 
 export(centerImage)
 export(dowloadImage)
-export(getGeneDataset)
+export(getGeneDatasets)
 export(getImageID)
-export(getStructureIDs)

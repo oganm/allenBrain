@@ -1,56 +1,36 @@
-
-
-
 #' Acquire datasets for genes
 #'
 #' @param gene A mouse gene symbol
 #' @param planeOfSection coronal or sagittal
 #'
-#' @return Dataset ID of the first section dataset matching the description
+#' @return Dataset ID of section datasets matching the description (gene and section)
 #' @export
-getGeneDataset = function(gene,
-                           planeOfSection = c('sagittal', 'coronal')){
+getGeneDatasets = function(gene,
+                          planeOfSection = c('sagittal', 'coronal','all')){
     
     planeOfSection = match.arg(planeOfSection)
-
+    
     POS = switch (planeOfSection,
-            sagittal = 2,
-            coronal = 1
-    )
+                  sagittal = 2,
+                  coronal = 1,
+                  all= NULL)
+    
     
     sectionDataSets = getURL(paste0('http://api.brain-map.org/api/v2/data/SectionDataSet/query.xml?criteria=products[id$eq1],genes[acronym$eq%27',
-                 gene,
-                 '%27]&include=genes,section_images')) %>% (XML::xmlParse) %>% (XML::xmlToList)
+                                    gene,
+                                    '%27]&include=genes,section_images')) %>% (XML::xmlParse) %>% (XML::xmlToList)
     
     # loop to find the first experiment with the right plane of section
-    for (i in 1:length(sectionDataSets$`section-data-sets`)){
-        if(sectionDataSets$`section-data-sets`[[i]]$`plane-of-section-id` == POS){
-            return(sectionDataSets$`section-data-sets`[[i]]$id)
-        }
-    }
-    warning('No dataset found for the gene section combination')
+    relevant = sapply(1:length(sectionDataSets$`section-data-sets`), function(i){
+        (is.null(POS) || sectionDataSets$`section-data-sets`[[i]]$`plane-of-section-id` == POS) & 
+            sectionDataSets$`section-data-sets`[[i]]$failed == 'false'
+    })
+    
+    sectionDataSets$`section-data-sets`[relevant] %>% sapply(function(x){
+        c(x$id)
+    }) %>% return()
 }
 
-#' Acquire a list of structure ids
-#' @return A data frame with 2 columns. All names are in lower case
-#' @export
-getStructureIDs = function(){
-    tree = RCurl::getURL('http://api.brain-map.org/api/v2/structure_graph_download/1.json')
-    tree = gsub('null','-9999',tree)
-    
-    abaRegions = RJSONIO::fromJSON(tree)[[6]]
-    abaRegions %<>% unlist(recursive=T)
-    IDs = abaRegions[abaRegions %>%
-                         names %>% 
-                         grepl(pattern = '(^|\\.)id',x = .)]
-    IDs[IDs == -9999] = NA
-    IDs %<>%  as.numeric
-    names = abaRegions[abaRegions %>%
-                           names %>% 
-                           grepl(pattern = 'name',x = .)] %>% tolower
-    
-    return(data.frame(id = IDs, name = names))
-}
 
 #' Acquire image id centered on the region
 #' @return A named list including the ID of the image and coordinates of the brain region

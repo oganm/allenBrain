@@ -8,8 +8,7 @@ Imports:
     RCurl,
     RJSONIO,
     cowplot,
-    XML,
-    jpeg
+    XML
 Suggests:
     testthat
 Enhances: 

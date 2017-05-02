@@ -3,14 +3,16 @@ Type: Package
 Title: Acquiring puctures from allen brain atlas
 Version: 1.0
 Depends:
-    magrittr
 Imports:
     RCurl,
     RJSONIO,
     cowplot,
-    XML
+    XML,
+    magrittr,
+    glue
 Suggests:
-    testthat
+    testthat,
+    magick
 Enhances: 
 Date: 2015-06-16
 Author: Ogan Mancarci
@@ -18,4 +20,4 @@ Maintainer: Ogan Mancarci <ogan.mancarci@gmail.com>
 Description: A package to download ish images from allen brain. Will be
     potentially extended for other parts of the allen brain institute api
 License: GPL-3
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

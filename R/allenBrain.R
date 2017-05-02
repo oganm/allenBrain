@@ -16,7 +16,7 @@ getGeneDatasets = function(gene,
                   all= NULL)
     
     
-    sectionDataSets = getURL(paste0('http://api.brain-map.org/api/v2/data/SectionDataSet/query.xml?criteria=products[id$eq1],genes[acronym$eq%27',
+    sectionDataSets = RCurl::getURL(paste0('http://api.brain-map.org/api/v2/data/SectionDataSet/query.xml?criteria=products[id$eq1],genes[acronym$eq%27',
                                     gene,
                                     '%27]&include=genes,section_images')) %>% (XML::xmlParse) %>% (XML::xmlToList)
     
@@ -56,7 +56,7 @@ getStructureIDs = function(){
 #' @return A named list including the ID of the image and coordinates of the brain region
 #' @export
 getImageID = function(datasetID,regionID){
-    image = getURL(paste0('http://api.brain-map.org/api/v2/structure_to_image/',datasetID,'.xml?structure_ids=',regionID)) %>% (XML::xmlParse) %>% (XML::xmlToList)
+    image = RCurl::getURL(paste0('http://api.brain-map.org/api/v2/structure_to_image/',datasetID,'.xml?structure_ids=',regionID)) %>% (XML::xmlParse) %>% (XML::xmlToList)
     c(imageID = image$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`$`section-image-id` %>% as.numeric,
       x = image$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`$x %>% as.numeric,
       y = image$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`$y %>% as.numeric)
@@ -64,30 +64,51 @@ getImageID = function(datasetID,regionID){
 
 #' Download the image from ABA
 #' @param imageID id of an image acquired from getImageID function
-#' @param output file to output the image
+#' @param output file to output the image. If null a magick-image object is returned
 #' @param view what kind of image to download, expression gives grayscale processed image while projection is the raw photo
 #' @param downsample downsampling rate. Unless 0, coordinates from getImageID function won't be exact
 #' @export
-dowloadImage = function(imageID,output,view = c('expression','projection'),downsample = 0){
+dowloadImage = function(imageID,outputFile = NULL,view = c('expression','projection'),downsample = 0){
     
     view = match.arg(view)
     
-    download.file(url = paste0('http://api.brain-map.org/api/v2/image_download/',
-                         imageID,
-                         '?downsample=',
-                         downsample,
-                         '&view=',view),destfile = output)
+    if(!is.null(outputFile)){
+        download.file(url = paste0('http://api.brain-map.org/api/v2/image_download/',
+                                   imageID,
+                                   '?downsample=',
+                                   downsample,
+                                   '&view=',view),destfile = outputFile)
+    } else {
+        image = magick::image_read(paste0('http://api.brain-map.org/api/v2/image_download/',
+                                          imageID,
+                                          '?downsample=',
+                                          downsample,
+                                          '&view=',view))
+        return(image)
+    }
 }
 
 
 
 #' Center and crop the image
+#' 
+#' @param image a file path as a character or a magick-image
+#' @param x center x coordinate of the image
+#' @param y center y coordinate of the image
+#' @param xProportions vector of length 2. If \code{c(0.1,0.1)} 20% of the image will be kept in x dimension. 10% to the left and 10% to the right
+#' @param yProportions same as xProportions but for y
+#' @param outputFile file path of the output. If null, a magick-image is returned
 #' @export
-centerImage = function(imageFile, x ,y , xProportions = c(0.1,0.1), yProportions =c(0.1,0.1) , outputFile){
-    dimensions = system(paste('identify',
-                              imageFile), intern = TRUE) %>%
-        regmatches(.,regexpr("(?<=[ ])[0-9]*?x[0-9]*?(?=[ ])",.,perl=T)) %>%
-        strsplit('x') %>% .[[1]] %>% as.double
+centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(0.1,0.1) , outputFile=NULL){
+    if(is.character(image)){
+        image = magick::image_read(image)
+    }
+    dimensions = magick::image_info(image) %>% {c(.$width,.$height)}
+    
+    # dimensions = system(paste('identify',
+    #                           imageFile), intern = TRUE) %>%
+    #     regmatches(.,regexpr("(?<=[ ])[0-9]*?x[0-9]*?(?=[ ])",.,perl=T)) %>%
+    #     strsplit('x') %>% .[[1]] %>% as.double
     
     # image = jpeg::readJPEG(imageFile, native=TRUE) # old code to get the size
 
@@ -100,17 +121,19 @@ centerImage = function(imageFile, x ,y , xProportions = c(0.1,0.1), yProportions
     beginningX = round(x) - shiftX
     beginningY = round(y) - shiftY
     
-    system(paste0('convert "',imageFile, '" -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' "',outputFile,'"'))
+    # system(paste0('convert "',imageFile, '" -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' "',outputFile,'"'))
     
-    
-    #output  = image[beginningY:(beginningY+sizeY), beginningX:(beginningX + sizeX)] 
-    
-    #dimOut = dim(output)
-    #class(output) = 'nativeRaster'
-    #attr(output, 'channels') = 3
-    #attr(output, 'dim') = dimOut
-    
+    image = magick::image_crop(image,geometry = glue::glue('{sizeX}x{sizeY}+{beginningX}+{beginningY}'))
+    if (is.null(outputFile)){
+        return(image)
+    } else{
+        magick::image_write(image,path = outputFile)
+    }
+}
 
-    #jpeg::writeJPEG(image = output, target = outputFile)
+gridData = function(datasetID,outputFile ,include = c('energy','density','intensity')){
+    include %<>% paste(collapse=',')
+    link = glue::glue('http://api.brain-map.org/grid_data/download/{datasetID}&include={include}')
+    download.file(link,destfile = outputFile)
 }
 

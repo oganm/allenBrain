@@ -4,19 +4,18 @@
 \alias{dowloadImage}
 \title{Download the image from ABA}
 \usage{
-dowloadImage(imageID, output, view = c("expression", "projection"),
-  downsample = 0)
+dowloadImage(imageID, outputFile = NULL, view = c("expression",
+  "projection"), downsample = 0)
 }
 \arguments{
 \item{imageID}{id of an image acquired from getImageID function}
 
-\item{output}{file to output the image}
-
 \item{view}{what kind of image to download, expression gives grayscale processed image while projection is the raw photo}
 
 \item{downsample}{downsampling rate. Unless 0, coordinates from getImageID function won't be exact}
+
+\item{output}{file to output the image. If null a magick-image object is returned}
 }
 \description{
 Download the image from ABA
 }
-

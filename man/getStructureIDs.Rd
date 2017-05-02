@@ -12,4 +12,3 @@ A data frame with 2 columns. All names are in lower case
 \description{
 Acquire a list of structure ids
 }
-

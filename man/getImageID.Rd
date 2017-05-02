@@ -12,4 +12,3 @@ A named list including the ID of the image and coordinates of the brain region
 \description{
 Acquire image id centered on the region
 }
-

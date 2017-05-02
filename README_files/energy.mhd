@@ -1,0 +1,12 @@
+ObjectType = Image
+NDims = 3
+BinaryData = True
+BinaryDataByteOrderMSB = False
+TransformMatrix = 1 0 0 0 1 0 0 0 1
+Offset = 0 0 0
+CenterOfRotation = 0 0 0
+AnatomicalOrientation = RAI
+ElementSpacing = 200 200 200
+DimSize = 67 41 58
+ElementType = MET_FLOAT
+ElementDataFile = energy.raw

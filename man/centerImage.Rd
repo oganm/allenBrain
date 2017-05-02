@@ -4,10 +4,22 @@
 \alias{centerImage}
 \title{Center and crop the image}
 \usage{
-centerImage(imageFile, x, y, xProportions = c(0.1, 0.1),
-  yProportions = c(0.1, 0.1), outputFile)
+centerImage(image, x, y, xProportions = c(0.1, 0.1), yProportions = c(0.1,
+  0.1), outputFile = NULL)
+}
+\arguments{
+\item{image}{a file path as a character or a magick-image}
+
+\item{x}{center x coordinate of the image}
+
+\item{y}{center y coordinate of the image}
+
+\item{xProportions}{vector of length 2. If \code{c(0.1,0.1)} 20% of the image will be kept in x dimension. 10% to the left and 10% to the right}
+
+\item{yProportions}{same as xProportions but for y}
+
+\item{outputFile}{file path of the output. If null, a magick-image is returned}
 }
 \description{
 Center and crop the image
 }
-

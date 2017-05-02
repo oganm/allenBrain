@@ -6,24 +6,31 @@
 #' @return Dataset ID of section datasets matching the description (gene and section)
 #' @export
 getGeneDatasets = function(gene,
-                          planeOfSection = c('sagittal', 'coronal','all')){
+                          planeOfSection = c('sagittal', 'coronal','both'),
+                          probeOrientation = c('antisense','sense','both')){
     
     planeOfSection = match.arg(planeOfSection)
+    probeOrientation = match.arg(probeOrientation)
     
     POS = switch (planeOfSection,
                   sagittal = 2,
                   coronal = 1,
-                  all= NULL)
+                  both= NULL)
+    orientation = switch(probeOrientation,
+                         antisense = 2,
+                         sense = 1,
+                         both = NULL)
     
     
     sectionDataSets = RCurl::getURL(paste0('http://api.brain-map.org/api/v2/data/SectionDataSet/query.xml?criteria=products[id$eq1],genes[acronym$eq%27',
                                     gene,
-                                    '%27]&include=genes,section_images')) %>% (XML::xmlParse) %>% (XML::xmlToList)
+                                    '%27]&include=genes,section_images,probes')) %>% (XML::xmlParse) %>% (XML::xmlToList)
     
     # loop to find the first experiment with the right plane of section
     relevant = sapply(1:length(sectionDataSets$`section-data-sets`), function(i){
         (is.null(POS) || sectionDataSets$`section-data-sets`[[i]]$`plane-of-section-id` == POS) & 
-            sectionDataSets$`section-data-sets`[[i]]$failed == 'false'
+            sectionDataSets$`section-data-sets`[[i]]$failed == 'false' & 
+            (is.null(orientation) || sectionDataSets$`section-data-sets`[[i]]$probes$probe$`orientation-id`$text ==orientation)
     })
     
     sectionDataSets$`section-data-sets`[relevant] %>% sapply(function(x){

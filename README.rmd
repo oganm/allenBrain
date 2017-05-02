@@ -33,7 +33,9 @@ IDs %>% head
 granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
 
 # get the dataset for the desired gene (the first saggital experiment that did not fail)
-datasetID = getGeneDatasets(gene = 'Prox1',planeOfSection = 'sagittal')[1]
+datasetID = getGeneDatasets(gene = 'Prox1',
+                            planeOfSection = 'sagittal',
+                            probeOrientation = 'antisense')[1]
 
 granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
 

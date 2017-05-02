@@ -115,7 +115,7 @@ centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(
     } else{
         warning("Package 'magick' is not installed. Using system calls to imagemagick")
         dimensions = system(paste('identify',
-                                  imageFile), intern = TRUE) %>%
+                                  image), intern = TRUE) %>%
             regmatches(.,regexpr("(?<=[ ])[0-9]*?x[0-9]*?(?=[ ])",.,perl=T)) %>%
             strsplit('x') %>% .[[1]] %>% as.double
     }
@@ -137,7 +137,7 @@ centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(
             magick::image_write(image,path = outputFile)
         }
     } else{
-        system(paste0('convert "',imageFile, '" -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' "',outputFile,'"'))
+        system(paste0('convert "',image, '" -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' "',outputFile,'"'))
     }
 }
 

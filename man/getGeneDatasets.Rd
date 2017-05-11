@@ -4,7 +4,8 @@
 \alias{getGeneDatasets}
 \title{Acquire datasets for genes}
 \usage{
-getGeneDatasets(gene, planeOfSection = c("sagittal", "coronal", "all"))
+getGeneDatasets(gene, planeOfSection = c("sagittal", "coronal", "both"),
+  probeOrientation = c("antisense", "sense", "both"))
 }
 \arguments{
 \item{gene}{A mouse gene symbol}

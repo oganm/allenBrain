@@ -141,6 +141,41 @@ centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(
     }
 }
 
+#' Acquire atlas id centered on the image
+#' @param imageID ID of the input image
+#' @param x x coordinate of the location of the desired center coordinates on the image
+#' @param y y corrdinate of the location of the desired center coordinates on the image
+#' @param planeOfSection sagittal or coronal atlas?
+#' @return A named list including the ID of the image and coordinates closest to the coordinates in the input
+#' @export
+getAtlasID = function(imageID,x,y,planeOfSection =c('sagittal','coronal')){
+    planeOfSection = match.arg(planeOfSection)
+    
+    POS = switch (planeOfSection,
+                  sagittal = 2,
+                  coronal = 1)
+    
+    image = RCurl::getURL(glue::glue('http://api.brain-map.org/api/v2/image_to_atlas/{imageID}.xml?x={x}&y={y}&atlas_id={POS}')) %>% (XML::xmlParse) %>% (XML::xmlToList)
+    
+    c(imageID = image$`image-sync`$`section-image-id` %>% as.numeric,
+      x = image$`image-sync`$x %>% as.numeric,
+      y = image$`image-sync`$y %>% as.numeric)
+}
+
+#' Downloads atlas image
+#' @export
+downloadAtlas = function(imageID,outputFile = NULL,downsample = 0){
+    link = glue::glue('http://api.brain-map.org/api/v2/atlas_image_download/{imageID}?downsample={downsample}&annotation=true')
+    
+    if(!is.null(outputFile)){
+        download.file(url = link,destfile = outputFile)
+    } else {
+        image = magick::image_read(link)
+        return(image)
+    }
+}
+
+#' @export
 gridData = function(datasetID,outputFile ,include = c('energy','density','intensity')){
     include %<>% paste(collapse=',')
     link = glue::glue('http://api.brain-map.org/grid_data/download/{datasetID}&include={include}')

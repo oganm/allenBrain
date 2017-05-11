@@ -37,8 +37,6 @@ datasetID = getGeneDatasets(gene = 'Prox1',
                             planeOfSection = 'sagittal',
                             probeOrientation = 'antisense')[1]
 
-granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
-
 
 # get the slide that has the desired brain region and coordinates of the center of the region
 imageID = getImageID(datasetID = datasetID, regionID = granuleID)

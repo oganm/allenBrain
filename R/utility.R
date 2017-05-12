@@ -27,8 +27,8 @@ centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(
     shiftX = (dimensions[1]*(xProportions[1])) %>% round
     shiftY = (dimensions[2]*(yProportions[1])) %>% round
     
-    beginningX = round(x) - shiftX
-    beginningY = round(y) - shiftY
+    beginningX = round(as.numeric(x)) - shiftX
+    beginningY = round(as.numeric(y)) - shiftY
     
     if ('magick' %in% (installed.packages() %>% rownames())){
         image = magick::image_crop(image,geometry = glue::glue('{sizeX}x{sizeY}+{beginningX}+{beginningY}'))

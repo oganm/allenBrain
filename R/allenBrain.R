@@ -8,7 +8,6 @@
 getGeneDatasets = function(gene,
                           planeOfSection = c('sagittal', 'coronal','both'),
                           probeOrientation = c('antisense','sense','both')){
-    
     planeOfSection = match.arg(planeOfSection)
     probeOrientation = match.arg(probeOrientation)
     
@@ -25,7 +24,7 @@ getGeneDatasets = function(gene,
     sectionDataSets = RCurl::getURL(paste0('http://api.brain-map.org/api/v2/data/SectionDataSet/query.xml?criteria=products[id$eq1],genes[acronym$eq%27',
                                     gene,
                                     '%27]&include=genes,section_images,probes')) %>% (XML::xmlParse) %>% (XML::xmlToList)
-    
+
     # loop to find the first experiment with the right plane of section
     relevant = sapply(1:length(sectionDataSets$`section-data-sets`), function(i){
         (is.null(POS) || sectionDataSets$`section-data-sets`[[i]]$`plane-of-section-id` == POS) & 
@@ -59,15 +58,6 @@ getStructureIDs = function(){
     return(data.frame(id = IDs, name = names))
 }
 
-#' Acquire image id centered on the region
-#' @return A named list including the ID of the image and coordinates of the brain region
-#' @export
-getImageID = function(datasetID,regionID){
-    image = RCurl::getURL(paste0('http://api.brain-map.org/api/v2/structure_to_image/',datasetID,'.xml?structure_ids=',regionID)) %>% (XML::xmlParse) %>% (XML::xmlToList)
-    c(imageID = image$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`$`section-image-id` %>% as.numeric,
-      x = image$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`$x %>% as.numeric,
-      y = image$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`$y %>% as.numeric)
-}
 
 #' Download the image from ABA
 #' @param imageID id of an image acquired from getImageID function
@@ -98,26 +88,7 @@ dowloadImage = function(imageID,outputFile = NULL,view = c('expression','project
 
 
 
-#' Acquire atlas id centered on the image
-#' @param imageID ID of the input image
-#' @param x x coordinate of the location of the desired center coordinates on the image
-#' @param y y corrdinate of the location of the desired center coordinates on the image
-#' @param planeOfSection sagittal or coronal atlas?
-#' @return A named list including the ID of the image and coordinates closest to the coordinates in the input
-#' @export
-imageToAtlas = function(imageID,x,y,planeOfSection =c('sagittal','coronal')){
-    planeOfSection = match.arg(planeOfSection)
-    
-    POS = switch (planeOfSection,
-                  sagittal = 2,
-                  coronal = 1)
-    
-    image = RCurl::getURL(glue::glue('http://api.brain-map.org/api/v2/image_to_atlas/{imageID}.xml?x={x}&y={y}&atlas_id={POS}')) %>% (XML::xmlParse) %>% (XML::xmlToList)
-    
-    c(imageID = image$`image-sync`$`section-image-id` %>% as.numeric,
-      x = image$`image-sync`$x %>% as.numeric,
-      y = image$`image-sync`$y %>% as.numeric)
-}
+
 
 #' Downloads atlas image
 #' @export
@@ -141,15 +112,6 @@ listImages = function(datasetID){
     return(images)
 }
 
-#' Finds the closest points in images provided in the seed image and seed coordinates
-#' @export
-imageToImage2D = function(seedImage,x,y,images){
-    xml = glue::glue('http://api.brain-map.org/api/v2/image_to_image_2d/{seedImage}.xml?x={x}&y={y}&section_image_ids={paste(images,collapse = ",")}')  %>% 
-        (XML::xmlParse) %>% (XML::xmlToList)
-    syncs =  data.frame(matrix(unlist(xml$`image-sync-helper-image-syncs`), nrow=length(xml$`image-sync-helper-image-syncs`), byrow=T),stringsAsFactors = FALSE)
-    names(syncs) = names(xml$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`)
-    return(syncs)
-}
 
 #' @export
 gridData = function(datasetID,outputFile ,include = c('energy','density','intensity')){

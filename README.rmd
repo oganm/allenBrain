@@ -40,13 +40,13 @@ datasetID = getGeneDatasets(gene = 'Prox1',
 
 
 # get the slide that has the desired brain region and coordinates of the center of the region
-imageID = getImageID(datasetID = datasetID, regionID = granuleID)
+imageID = structureToImage(datasetID = datasetID, regionIDs = granuleID)
 
 # get the closest atlas image. 
-atlasID = imageToAtlas(imageID['imageID'],imageID['x'],imageID['y'],planeOfSection ='sagittal')
+atlasID = imageToAtlas(imageID$section.image.id,imageID$x,imageID$y,planeOfSection ='sagittal')
 
 # download the slide
-dowloadImage(imageID = imageID["imageID"], 
+dowloadImage(imageID = imageID$section.image.id, 
              view = 'projection',
              outputFile = 'README_files/image.jpg',
              downsample = 0)
@@ -55,7 +55,7 @@ dowloadImage(imageID = imageID["imageID"],
 
 ```{r}
 # download the atlas
-downloadAtlas(imageID = atlasID["imageID"], 
+downloadAtlas(imageID = atlasID$section.image.id, 
              outputFile = 'README_files/atlas.jpg',
              downsample = 0)
 ```
@@ -67,8 +67,8 @@ If `magick` is installed images can be centered by providing center coordinates 
 ```{r}
 # crop the slide so that the desired brain region is in the center
 centerImage(image = 'README_files/image.jpg', 
-            x = imageID['x'],
-            y= imageID['y'],
+            x = imageID$x,
+            y= imageID$y,
             xProportions = c(.1,.1),
             yProportions =c(.1,.1),
             outputFile = 'README_files/cropped.jpg')

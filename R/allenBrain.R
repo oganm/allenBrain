@@ -108,7 +108,7 @@ downloadAtlas = function(imageID,outputFile = NULL,downsample = 0){
 listImages = function(datasetID){
     xml = glue::glue('http://api.brain-map.org/api/v2/data/query.xml?criteria=model::SectionImage,rma::criteria,[data_set_id$eq{datasetID}]')  %>% (XML::xmlParse) %>% (XML::xmlToList)
     images <- data.frame(matrix(unlist(xml$`section-images`), nrow=length(xml$`section-images`), byrow=T),stringsAsFactors = FALSE)
-    names(images) =names(xml$`section-images`$`section-image`)
+    names(images) =names(xml$`section-images`$`section-image`) %>% make.names
     return(images)
 }
 

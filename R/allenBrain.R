@@ -97,49 +97,6 @@ dowloadImage = function(imageID,outputFile = NULL,view = c('expression','project
 
 
 
-#' Center and crop the image
-#' 
-#' @param image a file path as a character or a magick-image
-#' @param x center x coordinate of the image
-#' @param y center y coordinate of the image
-#' @param xProportions vector of length 2. If \code{c(0.1,0.1)} 20% of the image will be kept in x dimension. 10% to the left and 10% to the right
-#' @param yProportions same as xProportions but for y
-#' @param outputFile file path of the output. If null, a magick-image is returned
-#' @export
-centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(0.1,0.1) , outputFile=NULL){
-    if ('magick' %in% (installed.packages() %>% rownames())){
-    if(is.character(image)){
-        image = magick::image_read(image)
-    }
-    dimensions = magick::image_info(image) %>% {c(.$width,.$height)}
-    } else{
-        warning("Package 'magick' is not installed. Using system calls to imagemagick")
-        dimensions = system(paste('identify',
-                                  image), intern = TRUE) %>%
-            regmatches(.,regexpr("(?<=[ ])[0-9]*?x[0-9]*?(?=[ ])",.,perl=T)) %>%
-            strsplit('x') %>% .[[1]] %>% as.double
-    }
-
-    sizeX = (dimensions[1]*(xProportions[1] + xProportions[2])) %>% round
-    sizeY = (dimensions[2]*(yProportions[1] +yProportions[2])) %>% round
-    
-    shiftX = (dimensions[1]*(xProportions[1])) %>% round
-    shiftY = (dimensions[2]*(yProportions[1])) %>% round
-    
-    beginningX = round(x) - shiftX
-    beginningY = round(y) - shiftY
-    
-    if ('magick' %in% (installed.packages() %>% rownames())){
-        image = magick::image_crop(image,geometry = glue::glue('{sizeX}x{sizeY}+{beginningX}+{beginningY}'))
-        if (is.null(outputFile)){
-            return(image)
-        } else{
-            magick::image_write(image,path = outputFile)
-        }
-    } else{
-        system(paste0('convert "',image, '" -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' "',outputFile,'"'))
-    }
-}
 
 #' Acquire atlas id centered on the image
 #' @param imageID ID of the input image
@@ -148,7 +105,7 @@ centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(
 #' @param planeOfSection sagittal or coronal atlas?
 #' @return A named list including the ID of the image and coordinates closest to the coordinates in the input
 #' @export
-getAtlasID = function(imageID,x,y,planeOfSection =c('sagittal','coronal')){
+imageToAtlas = function(imageID,x,y,planeOfSection =c('sagittal','coronal')){
     planeOfSection = match.arg(planeOfSection)
     
     POS = switch (planeOfSection,
@@ -173,6 +130,25 @@ downloadAtlas = function(imageID,outputFile = NULL,downsample = 0){
         image = magick::image_read(link)
         return(image)
     }
+}
+
+#' List images for a dataset
+#' @export
+listImages = function(datasetID){
+    xml = glue::glue('http://api.brain-map.org/api/v2/data/query.xml?criteria=model::SectionImage,rma::criteria,[data_set_id$eq{datasetID}]')  %>% (XML::xmlParse) %>% (XML::xmlToList)
+    images <- data.frame(matrix(unlist(xml$`section-images`), nrow=length(xml$`section-images`), byrow=T),stringsAsFactors = FALSE)
+    names(images) =names(xml$`section-images`$`section-image`)
+    return(images)
+}
+
+#' Finds the closest points in images provided in the seed image and seed coordinates
+#' @export
+imageToImage2D = function(seedImage,x,y,images){
+    xml = glue::glue('http://api.brain-map.org/api/v2/image_to_image_2d/{seedImage}.xml?x={x}&y={y}&section_image_ids={paste(images,collapse = ",")}')  %>% 
+        (XML::xmlParse) %>% (XML::xmlToList)
+    syncs =  data.frame(matrix(unlist(xml$`image-sync-helper-image-syncs`), nrow=length(xml$`image-sync-helper-image-syncs`), byrow=T),stringsAsFactors = FALSE)
+    names(syncs) = names(xml$`image-sync-helper-image-syncs`$`images-sync-helper-images-syncs`)
+    return(syncs)
 }
 
 #' @export

@@ -9,7 +9,8 @@ Imports:
     cowplot,
     XML,
     magrittr,
-    glue
+    glue,
+    purrr
 Suggests:
     testthat,
     magick

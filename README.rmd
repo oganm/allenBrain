@@ -22,6 +22,7 @@ devtools::github_install('oganm/allenBrain')
 ```
 
 ## Example usage
+
 ``` {r}
 # get a list of structure names and ids
 IDs = getStructureIDs()
@@ -42,7 +43,7 @@ datasetID = getGeneDatasets(gene = 'Prox1',
 imageID = getImageID(datasetID = datasetID, regionID = granuleID)
 
 # get the closest atlas image. 
-atlasID = getAtlasID(imageID['imageID'],imageID['x'],imageID['y'],planeOfSection ='sagittal')
+atlasID = imageToAtlas(imageID['imageID'],imageID['x'],imageID['y'],planeOfSection ='sagittal')
 
 # download the slide
 dowloadImage(imageID = imageID["imageID"], 

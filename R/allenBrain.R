@@ -38,10 +38,38 @@ getGeneDatasets = function(gene,
 }
 
 #' Acquire a list of structure ids
-#' @return A data frame with 2 columns. All names are in lower case
+#' 
+#' This function acquires the list of structure ids and names that correspond to the structure ids in Allen Brain Atlas.
+#' Default behavior is to get the mouse brain atlas ontology. Most downstream functions in this package are specific to mouse brain ontology
+#' @param ontologyName name of the ontology to download
+#' @param graphID alternative to ontologyName, graph IDs can be provided to acquire the corresponding ontology. This will override the ontologyName provided.
+#' @return A data frame with 4 columns: id, names, acronyms and parent 
 #' @export
-getStructureIDs = function(){
-    tree = RCurl::getURL('http://api.brain-map.org/api/v2/structure_graph_download/1.json')
+getStructureIDs = function(ontologyName =c("Mouse Brain Atlas",
+                                           "Developing Mouse Brain Atlas",
+                                           "Human Brain Atlas",
+                                           "Developing Human Brain Atlas",	
+                                           "Non-Human Primate Brain Atlas",
+                                           "Glioblastoma"),
+                           graphID=NULL){
+    
+    ontologyName = match.arg(ontologyName)
+    
+    
+    ontologyID = switch (ontologyName,
+                  "Mouse Brain Atlas" = 1,
+                  "Developing Mouse Brain Atlas" = 17,
+                  "Human Brain Atlas" = 10,
+                  "Developing Human Brain Atlas" = 16,
+                  "Non-Human Primate Brain Atlas" = 8,
+                  "Glioblastoma" = 15
+                  )
+    
+    if(!is.null(graphID)){
+        ontologyID = graphID
+    }
+    
+    tree = RCurl::getURL(glue::glue('http://api.brain-map.org/api/v2/structure_graph_download/{ontologyID}.json'))
     tree = gsub('null','-9999',tree)
     
     abaRegions = RJSONIO::fromJSON(tree)[[6]]
@@ -53,11 +81,20 @@ getStructureIDs = function(){
     IDs %<>%  as.numeric
     names = abaRegions[abaRegions %>%
                            names %>% 
-                           grepl(pattern = 'name',x = .)] %>% tolower
+                           grepl(pattern = 'name',x = .)]
     
-    return(data.frame(id = IDs, name = names))
+    acronyms = abaRegions[abaRegions %>%
+                              names %>% 
+                              grepl(pattern = 'acronym',x = .)]
+    
+    parent = abaRegions[abaRegions %>%
+                            names %>% 
+                            grepl(pattern = 'parent_structure_id',x = .)]
+    
+    parent[parent ==-9999] = NA
+    
+    return(data.frame(id = IDs, name = names, acronyms = acronyms,parent = parent))
 }
-
 
 #' Download the image from ABA
 #' @param imageID id of an image acquired from getImageID function

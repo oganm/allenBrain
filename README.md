@@ -23,17 +23,17 @@ IDs = getStructureIDs()
 IDs %>% head
 ```
 
-    ##    id                          name
-    ## 1 997                          root
-    ## 2   8 basic cell groups and regions
-    ## 3 567                      cerebrum
-    ## 4 688               cerebral cortex
-    ## 5 695                cortical plate
-    ## 6 315                     isocortex
+    ##    id                          name  acronyms parent
+    ## 1 997                          root      root   <NA>
+    ## 2   8 Basic cell groups and regions      grey    997
+    ## 3 567                      Cerebrum        CH      8
+    ## 4 688               Cerebral cortex       CTX    567
+    ## 5 695                Cortical plate     CTXpl    688
+    ## 6 315                     Isocortex Isocortex    695
 
 ``` r
 # get the id of the desired region
-granuleID = IDs[grepl('dentate gyrus, granule cell layer',IDs$name),]$id
+granuleID = IDs[grepl('Dentate gyrus, granule cell layer',IDs$name),]$id
 
 # get the dataset for the desired gene (the first saggital experiment that did not fail)
 datasetID = getGeneDatasets(gene = 'Prox1',

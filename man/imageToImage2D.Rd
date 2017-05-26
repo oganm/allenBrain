@@ -2,10 +2,10 @@
 % Please edit documentation in R/imageSync.R
 \name{imageToImage2D}
 \alias{imageToImage2D}
-\title{Finds the closest points in images provided in the seed image and seed coordinates}
+\title{For a list of target SectionImages, find the closest (x,y) location as defined by a seed SectionImage and seed (x,y) location.}
 \usage{
 imageToImage2D(seedImage, x, y, images)
 }
 \description{
-Finds the closest points in images provided in the seed image and seed coordinates
+For a list of target SectionImages, find the closest (x,y) location as defined by a seed SectionImage and seed (x,y) location.
 }

@@ -4,11 +4,20 @@
 \alias{getStructureIDs}
 \title{Acquire a list of structure ids}
 \usage{
-getStructureIDs()
+getStructureIDs(ontologyName = c("Mouse Brain Atlas",
+  "Developing Mouse Brain Atlas", "Human Brain Atlas",
+  "Developing Human Brain Atlas", "Non-Human Primate Brain Atlas",
+  "Glioblastoma"), graphID = NULL)
+}
+\arguments{
+\item{ontologyName}{name of the ontology to download}
+
+\item{graphID}{alternative to ontologyName, graph IDs can be provided to acquire the corresponding ontology. This will override the ontologyName provided.}
 }
 \value{
-A data frame with 2 columns. All names are in lower case
+A data frame with 4 columns: id, names, acronyms and parent
 }
 \description{
-Acquire a list of structure ids
+This function acquires the list of structure ids and names that correspond to the structure ids in Allen Brain Atlas.
+Default behavior is to get the mouse brain atlas ontology. Most downstream functions in this package are specific to mouse brain ontology
 }

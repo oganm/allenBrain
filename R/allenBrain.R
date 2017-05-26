@@ -1,6 +1,6 @@
 #' Acquire datasets for genes
 #'
-#' @param gene A mouse gene symbol
+#' @param gene A mouse gene symbol, case sensitive.
 #' @param planeOfSection coronal or sagittal
 #'
 #' @return Dataset ID of section datasets matching the description (gene and section)

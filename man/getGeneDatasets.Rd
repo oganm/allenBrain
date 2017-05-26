@@ -8,7 +8,7 @@ getGeneDatasets(gene, planeOfSection = c("sagittal", "coronal", "both"),
   probeOrientation = c("antisense", "sense", "both"))
 }
 \arguments{
-\item{gene}{A mouse gene symbol}
+\item{gene}{A mouse gene symbol, case sensitive.}
 
 \item{planeOfSection}{coronal or sagittal}
 }

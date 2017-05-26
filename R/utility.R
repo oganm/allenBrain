@@ -3,7 +3,7 @@
 #' @param image a file path as a character or a magick-image
 #' @param x center x coordinate of the image
 #' @param y center y coordinate of the image
-#' @param xProportions vector of length 2. If \code{c(0.1,0.1)} 20% of the image will be kept in x dimension. 10% to the left and 10% to the right
+#' @param xProportions vector of length 2. If \code{c(0.1,0.1)} 20\% of the image will be kept in x dimension. 10\% to the left and 10\% to the right
 #' @param yProportions same as xProportions but for y
 #' @param outputFile file path of the output. If null, a magick-image is returned
 #' @export

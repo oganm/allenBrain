@@ -14,7 +14,7 @@ centerImage(image, x, y, xProportions = c(0.1, 0.1), yProportions = c(0.1,
 
 \item{y}{center y coordinate of the image}
 
-\item{xProportions}{vector of length 2. If \code{c(0.1,0.1)} 20% of the image will be kept in x dimension. 10% to the left and 10% to the right}
+\item{xProportions}{vector of length 2. If \code{c(0.1,0.1)} 20\% of the image will be kept in x dimension. 10\% to the left and 10\% to the right}
 
 \item{yProportions}{same as xProportions but for y}
 

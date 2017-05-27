@@ -102,7 +102,7 @@ getStructureIDs = function(ontologyName =c("Mouse Brain Atlas",
 #' @param view what kind of image to download, expression gives grayscale processed image while projection is the raw photo
 #' @param downsample downsampling rate. Unless 0, coordinates from getImageID function won't be exact
 #' @export
-dowloadImage = function(imageID,outputFile = NULL,view = c('expression','projection'),downsample = 0){
+downloadImage = function(imageID,outputFile = NULL,view = c('expression','projection'),downsample = 0){
     
     view = match.arg(view)
     
@@ -139,6 +139,7 @@ downloadAtlas = function(imageID,outputFile = NULL,downsample = 0){
         return(image)
     }
 }
+
 
 #' List images for a dataset
 #' @export

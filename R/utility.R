@@ -6,8 +6,9 @@
 #' @param xProportions vector of length 2. If \code{c(0.1,0.1)} 20\% of the image will be kept in x dimension. 10\% to the left and 10\% to the right
 #' @param yProportions same as xProportions but for y
 #' @param outputFile file path of the output. If null, a magick-image is returned
+#' @param downsample downsampling used when image was downloaded
 #' @export
-centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(0.1,0.1) , outputFile=NULL){
+centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(0.1,0.1) , outputFile=NULL,downsample = 0){
     if ('magick' %in% (installed.packages() %>% rownames())){
         if(is.character(image)){
             image = magick::image_read(image)
@@ -20,7 +21,8 @@ centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(
             regmatches(.,regexpr("(?<=[ ])[0-9]*?x[0-9]*?(?=[ ])",.,perl=T)) %>%
             strsplit('x') %>% .[[1]] %>% as.double
     }
-    
+    x = as.numeric(x)/(2^downsample)
+    y = as.numeric(y)/(2^downsample)
     sizeX = (dimensions[1]*(xProportions[1] + xProportions[2])) %>% round
     sizeY = (dimensions[2]*(yProportions[1] +yProportions[2])) %>% round
     

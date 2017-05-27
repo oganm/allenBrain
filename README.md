@@ -33,7 +33,7 @@ IDs %>% head
 
 ``` r
 # get the id of the desired region
-granuleID = IDs[grepl('Dentate gyrus, granule cell layer',IDs$name),]$id
+granuleID = IDs['Dentate gyrus, granule cell layer' == IDs$name,]$id
 
 # get the dataset for the desired gene (the first saggital experiment that did not fail)
 datasetID = getGeneDatasets(gene = 'Prox1',
@@ -48,10 +48,10 @@ imageID = structureToImage(datasetID = datasetID, regionIDs = granuleID)
 atlasID = imageToAtlas(imageID$section.image.id,imageID$x,imageID$y,planeOfSection ='sagittal')
 
 # download the slide
-dowloadImage(imageID = imageID$section.image.id, 
+downloadImage(imageID = imageID$section.image.id, 
              view = 'projection',
              outputFile = 'README_files/image.jpg',
-             downsample = 0)
+             downsample = 2)
 ```
 
 ![](README_files/image.jpg)
@@ -60,7 +60,7 @@ dowloadImage(imageID = imageID$section.image.id,
 # download the atlas
 downloadAtlas(imageID = atlasID$section.image.id, 
              outputFile = 'README_files/atlas.jpg',
-             downsample = 0)
+             downsample = 2)
 ```
 
 ![](README_files/atlas.jpg)
@@ -76,7 +76,8 @@ centerImage(image = 'README_files/image.jpg',
             y= imageID$y,
             xProportions = c(.1,.1),
             yProportions =c(.1,.1),
-            outputFile = 'README_files/cropped.jpg')
+            outputFile = 'README_files/cropped.jpg',
+            downsample = 2)
 ```
 
 ![](README_files/cropped.jpg)
@@ -87,7 +88,8 @@ centerImage(image = 'README_files/atlas.jpg',
             y= atlasID['y'],
             xProportions = c(.1,.1),
             yProportions =c(.1,.1),
-            outputFile = 'README_files/croppedAtlas.jpg')
+            outputFile = 'README_files/croppedAtlas.jpg',
+            downsample = 2)
 ```
 
 ![](README_files/croppedAtlas.jpg)

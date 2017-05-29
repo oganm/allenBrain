@@ -8,9 +8,17 @@ devtools::load_all()
 dir.create('README_files',showWarnings = FALSE)
 ```
 
+Table of Contents
+=================
+
+   * [allenBrain](#allenbrain)
+      * [Example usage](#example-usage)
+   * [Recent non-reverse compatible changes](#recent-non-reverse-compatible-changes)
+
 
 # allenBrain
-Acquiring pictures from allen brain atlas in R. Cropping and centering images requires magick that is listed in `Suggests` so it won't be automatically installed. Get it by:
+
+This R package acquires pictures from Allen Brain Atlas. Cropping and centering images requires magick that is listed in `Suggests` so it won't be automatically installed. Get it by:
 
 ```r
 install.packages("magick")
@@ -96,3 +104,10 @@ gridData(datasetID = datasetID,
          include = c('energy','density','intensity'))
 unzip(zipfile = 'README_files/Prox1_data.zip',exdir = "README_files/")
 ```
+
+
+# Recent non-reverse compatible changes
+
+* Output of `getStructureIDs` now returns acronyms and parents. `name` column no longer is in full lowercase
+* Mispronounced `dowloadImage` fixed and is now `downloadImage`
+* `getImageID` changed to `imageToAtlas`. Now accepts multiple region IDs and returns a data frame. Keeps original field names from the API output

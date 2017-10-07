@@ -158,3 +158,105 @@ gridData = function(datasetID,outputFile ,include = c('energy','density','intens
     download.file(link,destfile = outputFile)
 }
 
+
+#' @export
+listGenes = function(ontologyName =c("Mouse Brain Atlas",
+                                     "Developing Mouse Brain Atlas",
+                                     "Human Brain Atlas",
+                                     "Developing Human Brain Atlas",	
+                                     "Non-Human Primate Brain Atlas",
+                                     "Glioblastoma")){
+    ontologyName = match.arg(ontologyName)
+    
+    ontologyID = switch (ontologyName,
+                         "Mouse Brain Atlas" = 1,
+                         "Developing Mouse Brain Atlas" = 17,
+                         "Human Brain Atlas" = 10,
+                         "Developing Human Brain Atlas" = 16,
+                         "Non-Human Primate Brain Atlas" = 8,
+                         "Glioblastoma" = 15
+    )
+    
+    xml = glue::glue("http://api.brain-map.org/api/v2/data/Gene/query.xml?criteria=products[id$eq{ontologyID}]&num_rows=1") %>%  (XML::xmlParse) %>% (XML::xmlToList)
+    totalRows = xml$.attrs['total_rows'] %>% as.integer()
+    
+    pb = txtProgressBar(min = 0, max = totalRows, initial = 0) 
+    
+    genes = lapply(c(seq(0,totalRows,50)),function(i){
+        setTxtProgressBar(pb,i)
+        xml = glue::glue("http://api.brain-map.org/api/v2/data/Gene/query.xml?criteria=products[id$eq{ontologyID}]&num_rows=50&start_row={i}") %>%  (XML::xmlParse) %>% (XML::xmlToList)
+        genes = data.frame(matrix(unlist(xml[[1]]), nrow=length(xml[[1]]), byrow=T), stringsAsFactors = FALSE)
+    }) %>% do.call(rbind,.)
+    
+    names(genes) =names(xml$`ncbi-genes`$`ncbi-gene`) %>% make.names
+    
+    genes = data.frame(matrix(unlist(xml$`ncbi-genes`), nrow=length(xml$`ncbi-genes`), byrow=T), stringsAsFactors = FALSE)
+}
+
+#' @export
+getStructureExpressions = function(datasetID){
+    xml = glue::glue("http://api.brain-map.org/api/v2/data/SectionDataSet/query.xml?id={datasetID}&include=structure_unionizes%28structure%29") %>%  (XML::xmlParse) %>% (XML::xmlToList)
+    
+    if(xml$`section-data-sets`$`section-data-set`$failed !='false'){
+        warning(datasetID, ' is a failed experiment.')
+    }
+    
+    data = xml$`section-data-sets`$`section-data-set`$`structure-unionizes`
+    
+    expression = data.frame(matrix(unlist(data), nrow=length(data), byrow=T), stringsAsFactors = FALSE)
+    # expression = expression[,seq(1,ncol(expression),2)]
+    
+    names(expression) =names(data[[1]] %>% unlist) %>% make.names
+    expression = expression[,c('expression.density.text',
+                               'expression.energy.text',
+                               'id.text',
+                               'section.data.set.id.text',
+                               'structure.id.text',
+                               'sum.expressing.pixel.intensity.text',
+                               'sum.expressing.pixels.text',
+                               'sum.pixel.intensity.text',
+                               'sum.pixels.text',
+                               'voxel.energy.cv.text',
+                               'voxel.energy.mean.text',
+                               'structure.acronym',
+                               'structure.color.hex.triplet',
+                               'structure.graph.order.text',
+                               'structure.hemisphere.id.text',
+                               'structure.id.text',
+                               'structure.name',
+                               'structure.ontology.id.text',
+                               'structure.safe.name',
+                               'structure.st.level.text',
+                               'structure.structure.id.path',
+                               'structure.structure.name.facet.text',
+                               'structure.weight.text')]
+    
+    names(expression) %<>% gsub('\\.text','',.)
+    
+    double = c('expression.density',
+               "expression.energy",
+               "sum.expressing.pixel.intensity",
+               "sum.expressing.pixels",
+               "sum.pixel.intensity",
+               "sum.pixels", "voxel.energy.cv",
+               "voxel.energy.mean")
+    # integer = c('id',
+    #             "section.data.set.id",
+    #             'structure.id',
+    #             'structure.graph.order', 'structure.hemisphere.id',
+    #             'structure.id.1',
+    #             'structure.ontology.id',
+    #             'structure.st.level',
+    #             'structure.structure.name.facet', 'structure.weight')
+    for (x in double){
+        expression[,x] %<>% as.double()
+    }
+    
+    # for (x in integer){
+    #     expression[,x] %<>% as.integer()
+    # }
+    
+    return(expression)
+}
+
+

@@ -14,7 +14,7 @@
   <rnaseq-design-id nil="true"/>
   <section-thickness>25.0</section-thickness>
   <specimen-id>68870790</specimen-id>
-  <sphinx-id>155125</sphinx-id>
+  <sphinx-id>155802</sphinx-id>
   <storage-directory>/external/aibssan/production32/prod327/image_series_69289763/</storage-directory>
   <weight>5470</weight>
   <products>
@@ -60,7 +60,7 @@
     <parent-z-coord type="integer" nil="true"/>
     <rna-integrity-number type="float" nil="true"/>
     <specimen-id-path>/68870790/</specimen-id-path>
-    <sphinx-id type="integer">21998</sphinx-id>
+    <sphinx-id type="integer">22341</sphinx-id>
     <structure-id type="integer" nil="true"/>
     <tissue-ph type="float" nil="true"/>
     <treatment-id type="integer" nil="true"/>
@@ -79,6 +79,7 @@
       <egfr-amplification nil="true"/>
       <extent-of-resection nil="true"/>
       <external-donor-name nil="true"/>
+      <full-genotype nil="true"/>
       <handedness>unknown</handedness>
       <id type="integer">4965</id>
       <initial-kps nil="true"/>
@@ -692,6 +693,6 @@
       </alignment2d>
     </section-image>
   </section-images>
-  <plane_of_section>sagittal</plane_of_section>
+  <plane_of_section/>
   <age>P56</age>
 </section-data-set>

@@ -4,7 +4,12 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
+library(memoise)
+# listGenes = memoise(listGenes)
+# genes = listGenes()
+# saveRDS(listGenes,'listGenes.rds')
 devtools::load_all()
+readRDS('listGenes.rds')
 dir.create('README_files',showWarnings = FALSE)
 ```
 
@@ -12,9 +17,10 @@ Table of Contents
 =================
 
    * [allenBrain](#allenbrain)
-      * [Example usage](#example-usage)
-   * [Recent non-reverse compatible changes](#recent-non-reverse-compatible-changes)
-
+      * [Example usage](#example-usage)                                                                                                            
+         * [Image acquisition](#image-acquisition)                                                                                                 
+         * [Region expression data](#region-expression-data)                                                                                       
+         * [Incomplete stuff](#incomplete-stuff)   
 
 # allenBrain
 
@@ -31,6 +37,7 @@ devtools::github_install('oganm/allenBrain')
 
 ## Example usage
 
+### Image acquisition
 
 ``` {r}
 # get a list of structure names and ids
@@ -97,6 +104,27 @@ centerImage(image = 'README_files/atlas.jpg',
 ```
 ![](README_files/croppedAtlas.jpg)
 
+### Region expression data
+
+Region expression can be acquired by datasetID. Data displayed in ABA web portals is expression.energy.
+
+```{r}
+head(getStructureExpressions(datasetID))
+```
+
+If you want to get all genes, use `listGenes` to get all available genes for the species. Then do `getGeneDatasets`.
+
+```{r}
+genes = listGenes()
+
+geneDatasets = genes$acronym[1:10] %>% lapply(getGeneDatasets)
+```
+
+You may want to limit your search space as getting the data for all genes is a slow process.
+
+### Incomplete stuff
+
+
 Grid data of a dataset can be downloaded by `gridData` function
 ```{r}
 gridData(datasetID = datasetID,
@@ -104,10 +132,3 @@ gridData(datasetID = datasetID,
          include = c('energy','density','intensity'))
 unzip(zipfile = 'README_files/Prox1_data.zip',exdir = "README_files/")
 ```
-
-
-# Recent non-reverse compatible changes
-
-* Output of `getStructureIDs` now returns acronyms and parents. `name` column no longer is in full lowercase
-* Mispronounced `dowloadImage` fixed and is now `downloadImage`
-* `getImageID` changed to `imageToAtlas`. Now accepts multiple region IDs and returns a data frame. Keeps original field names from the API output

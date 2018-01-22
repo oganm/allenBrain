@@ -106,20 +106,17 @@ downloadImage = function(imageID,outputFile = NULL,view = c('expression','projec
     
     view = match.arg(view)
     
+    image = magick::image_read(paste0('http://api.brain-map.org/api/v2/image_download/',
+                                      imageID,
+                                      '?downsample=',
+                                      downsample,
+                                      '&view=',view))
+    
     if(!is.null(outputFile)){
-        download.file(url = paste0('http://api.brain-map.org/api/v2/image_download/',
-                                   imageID,
-                                   '?downsample=',
-                                   downsample,
-                                   '&view=',view),destfile = outputFile)
-    } else {
-        image = magick::image_read(paste0('http://api.brain-map.org/api/v2/image_download/',
-                                          imageID,
-                                          '?downsample=',
-                                          downsample,
-                                          '&view=',view))
-        return(image)
+        magick::image_write(image,path = outputFile)
     }
+    return(image)
+    
 }
 
 
@@ -131,13 +128,11 @@ downloadImage = function(imageID,outputFile = NULL,view = c('expression','projec
 #' @export
 downloadAtlas = function(imageID,outputFile = NULL,downsample = 0){
     link = glue::glue('http://api.brain-map.org/api/v2/atlas_image_download/{imageID}?downsample={downsample}&annotation=true')
-    
+    image = magick::image_read(link)
     if(!is.null(outputFile)){
-        download.file(url = link,destfile = outputFile)
-    } else {
-        image = magick::image_read(link)
-        return(image)
+        magick::image_write(image,outputFile)
     }
+    return(image)
 }
 
 
@@ -155,7 +150,7 @@ listImages = function(datasetID){
 gridData = function(datasetID,outputFile ,include = c('energy','density','intensity')){
     include %<>% paste(collapse=',')
     link = glue::glue('http://api.brain-map.org/grid_data/download/{datasetID}&include={include}')
-    download.file(link,destfile = outputFile)
+    download.file(link,destfile = outputFile,mode='wb')
 }
 
 

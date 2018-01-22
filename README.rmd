@@ -130,5 +130,5 @@ Grid data of a dataset can be downloaded by `gridData` function
 gridData(datasetID = datasetID,
          outputFile ='README_files/Prox1_data.zip',
          include = c('energy','density','intensity'))
-unzip(zipfile = 'README_files/Prox1_data.zip',exdir = "README_files/")
+unzip(zipfile = 'README_files/Prox1_data.zip',exdir = "README_files")
 ```

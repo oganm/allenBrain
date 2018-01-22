@@ -14,7 +14,7 @@
   <rnaseq-design-id nil="true"/>
   <section-thickness>25.0</section-thickness>
   <specimen-id>68870790</specimen-id>
-  <sphinx-id>155802</sphinx-id>
+  <sphinx-id>156366</sphinx-id>
   <storage-directory>/external/aibssan/production32/prod327/image_series_69289763/</storage-directory>
   <weight>5470</weight>
   <products>
@@ -44,6 +44,7 @@
   <specimen>
     <cell-prep-sample-id type="integer" nil="true"/>
     <cell-reporter-id type="integer" nil="true"/>
+    <cortex-layer-id type="integer" nil="true"/>
     <data nil="true"/>
     <donor-id type="integer">4965</donor-id>
     <ephys-result-id type="integer" nil="true"/>
@@ -58,9 +59,10 @@
     <parent-x-coord type="integer" nil="true"/>
     <parent-y-coord type="integer" nil="true"/>
     <parent-z-coord type="integer" nil="true"/>
+    <pinned-radius type="float" nil="true"/>
     <rna-integrity-number type="float" nil="true"/>
     <specimen-id-path>/68870790/</specimen-id-path>
-    <sphinx-id type="integer">22341</sphinx-id>
+    <sphinx-id type="integer">20608</sphinx-id>
     <structure-id type="integer" nil="true"/>
     <tissue-ph type="float" nil="true"/>
     <treatment-id type="integer" nil="true"/>

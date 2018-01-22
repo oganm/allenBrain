@@ -65,6 +65,9 @@ downloadImage(imageID = imageID$section.image.id,
              downsample = 2)
 ```
 
+    ##   format width height colorspace filesize
+    ## 1   JPEG  2980   1888       sRGB   897875
+
 ![](README_files/image.jpg)
 
 ``` r
@@ -73,6 +76,9 @@ downloadAtlas(imageID = atlasID$section.image.id,
              outputFile = 'README_files/atlas.jpg',
              downsample = 2)
 ```
+
+    ##   format width height colorspace filesize
+    ## 1   JPEG  3040   1840       sRGB   637035
 
 ![](README_files/atlas.jpg)
 
@@ -192,5 +198,5 @@ Grid data of a dataset can be downloaded by `gridData` function
 gridData(datasetID = datasetID,
          outputFile ='README_files/Prox1_data.zip',
          include = c('energy','density','intensity'))
-unzip(zipfile = 'README_files/Prox1_data.zip',exdir = "README_files/")
+unzip(zipfile = 'README_files/Prox1_data.zip',exdir = "README_files")
 ```

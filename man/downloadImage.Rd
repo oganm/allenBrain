@@ -14,7 +14,7 @@ downloadImage(imageID, outputFile = NULL, view = c("expression",
 
 \item{downsample}{downsampling rate. Unless 0, coordinates from getImageID function won't be exact}
 
-\item{output}{file to output the image. If null a magick-image object is returned}
+\item{output}{file to output the image.}
 }
 \description{
 Download the image from ABA

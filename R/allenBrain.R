@@ -98,7 +98,7 @@ getStructureIDs = function(ontologyName =c("Mouse Brain Atlas",
 
 #' Download the image from ABA
 #' @param imageID id of an image acquired from getImageID function
-#' @param output file to output the image. If null a magick-image object is returned
+#' @param output file to output the image.
 #' @param view what kind of image to download, expression gives grayscale processed image while projection is the raw photo
 #' @param downsample downsampling rate. Unless 0, coordinates from getImageID function won't be exact
 #' @export

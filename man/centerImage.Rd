@@ -5,7 +5,7 @@
 \title{Center and crop the image}
 \usage{
 centerImage(image, x, y, xProportions = c(0.1, 0.1), yProportions = c(0.1,
-  0.1), outputFile = NULL)
+  0.1), outputFile = NULL, downsample = 0)
 }
 \arguments{
 \item{image}{a file path as a character or a magick-image}
@@ -19,6 +19,8 @@ centerImage(image, x, y, xProportions = c(0.1, 0.1), yProportions = c(0.1,
 \item{yProportions}{same as xProportions but for y}
 
 \item{outputFile}{file path of the output. If null, a magick-image is returned}
+
+\item{downsample}{downsampling used when image was downloaded}
 }
 \description{
 Center and crop the image

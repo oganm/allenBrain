@@ -110,6 +110,7 @@ centerImage(image = 'README_files/atlas.jpg',
             downsample = downsample)
 ```
 ![](README_files/croppedAtlas.jpg)
+
 ### Image syncronization
 
 You can get closets points of other slides from the same dataset to get other slides depicting the region
@@ -119,10 +120,10 @@ You can get closets points of other slides from the same dataset to get other sl
 # gel all images for Prox1 experiment
 allImages = listImages(datasetID)  %>% arrange(as.numeric(`section.number`))
 
+# get coordinates that are closest to the center of the brain region
 closeSections = imageToImage2D(imageID$section.image.id,imageID$x,imageID$y,allImages$id)
 
-# dir.create('README_files/allProx1',showWarnings = FALSE)
-
+# download and crop them all
 croppedImage = closeSections %>% apply(1,function(x){
     # download and crop the images
     image = downloadImage(imageID = x['section.image.id'], 
@@ -139,7 +140,7 @@ croppedImage = closeSections %>% apply(1,function(x){
             downsample = downsample)
 }) %>% do.call(c,.)
 
-
+# some magick
 animation = magick::image_animate(croppedImage, fps = 1)
 magick::image_write(animation, "README_files/Prox1.gif")
 

@@ -34,12 +34,13 @@ centerImage = function(image, x ,y , xProportions = c(0.1,0.1), yProportions =c(
     
     if ('magick' %in% (installed.packages() %>% rownames())){
         image = magick::image_crop(image,geometry = glue::glue('{sizeX}x{sizeY}+{beginningX}+{beginningY}'))
-        if (is.null(outputFile)){
-            return(image)
-        } else{
+        if (!is.null(outputFile)){
             magick::image_write(image,path = outputFile)
         }
+        return(image)
     } else{
+        # this is actually not possible now that it is required
+        warning("magick package is not available")
         system(paste0('convert "',image, '" -crop ',sizeX,'x',sizeY,'+',beginningX,'+',beginningY,' "',outputFile,'"'))
     }
 }

@@ -9,7 +9,7 @@ library(memoise)
 # genes = listGenes()
 # saveRDS(listGenes,'listGenes.rds')
 devtools::load_all()
-readRDS('listGenes.rds')
+listGenes = readRDS('listGenes.rds')
 dir.create('README_files',showWarnings = FALSE)
 ```
 

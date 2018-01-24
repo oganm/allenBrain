@@ -65,10 +65,7 @@ downloadImage(imageID = imageID$section.image.id,
              downsample = 2)
 ```
 
-    ##   format width height colorspace filesize
-    ## 1   JPEG  2980   1888       sRGB   897875
-
-![](README_files/image.jpg)
+<img src="/tmp/RtmpvKMNKA/file3fd451e94009.png" width="2980" /> ![](README_files/image.jpg)
 
 ``` r
 # download the atlas
@@ -77,10 +74,7 @@ downloadAtlas(imageID = atlasID$section.image.id,
              downsample = 2)
 ```
 
-    ##   format width height colorspace filesize
-    ## 1   JPEG  3040   1840       sRGB   637035
-
-![](README_files/atlas.jpg)
+<img src="/tmp/RtmpvKMNKA/file3fd41be56c6.png" width="3040" /> ![](README_files/atlas.jpg)
 
 If `magick` is installed you can output a `magick-image` object by setting `outputFile = NULL`
 
@@ -180,11 +174,7 @@ If you want to get all genes, use `listGenes` to get all available genes for the
 
 ``` r
 genes = listGenes()
-```
 
-    ## ===========================================================================
-
-``` r
 geneDatasets = genes$acronym[1:10] %>% lapply(getGeneDatasets)
 ```
 

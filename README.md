@@ -42,7 +42,37 @@ IDs %>% head
     ## 5 695                Cortical plate     CTXpl    688
     ## 6 315                     Isocortex Isocortex    695
 
+``` r
+# get the id of the desired region
+granuleID = IDs['Dentate gyrus, granule cell layer' == IDs$name,]$id
+
+# get the dataset for the desired gene (the first saggital experiment that did not fail)
+datasetID = getGeneDatasets(gene = 'Prox1',
+                            planeOfSection = 'sagittal',
+                            probeOrientation = 'antisense')[1]
+
+
+# get the slide that has the desired brain region and coordinates of the center of the region
+imageID = structureToImage(datasetID = datasetID, regionIDs = granuleID)
+
+# get the closest atlas image. 
+atlasID = imageToAtlas(imageID$section.image.id,imageID$x,imageID$y,planeOfSection ='sagittal')
+
+# download the slide
+downloadImage(imageID = imageID$section.image.id, 
+             view = 'projection',
+             outputFile = 'README_files/image.jpg',
+             downsample = 2)
+```
+
 ![](README_files/image.jpg)
+
+``` r
+# download the atlas
+downloadAtlas(imageID = atlasID$section.image.id, 
+             outputFile = 'README_files/atlas.jpg',
+             downsample = 2)
+```
 
 ![](README_files/atlas.jpg)
 
@@ -50,7 +80,28 @@ If `magick` is installed you can output a `magick-image` object by setting `outp
 
 If `magick` is installed images can be centered by providing center coordinates of a brain region. Input is either a file path or a `magick-image` object
 
+``` r
+# crop the slide so that the desired brain region is in the center
+centerImage(image = 'README_files/image.jpg', 
+            x = imageID$x,
+            y= imageID$y,
+            xProportions = c(.1,.1),
+            yProportions =c(.1,.1),
+            outputFile = 'README_files/cropped.jpg',
+            downsample = 2)
+```
+
 ![](README_files/cropped.jpg)
+
+``` r
+centerImage(image = 'README_files/atlas.jpg', 
+            x = atlasID['x'],
+            y= atlasID['y'],
+            xProportions = c(.1,.1),
+            yProportions =c(.1,.1),
+            outputFile = 'README_files/croppedAtlas.jpg',
+            downsample = 2)
+```
 
 ![](README_files/croppedAtlas.jpg)
 

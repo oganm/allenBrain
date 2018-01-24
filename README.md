@@ -28,7 +28,12 @@ Example usage
 
 ### Image acquisition
 
+You can use `downloadImage` and `downloadAtlas` functions to get images. Output of these functions are `magick-image` objects
+
 ``` r
+library(dplyr)
+
+
 # get a list of structure names and ids
 IDs = getStructureIDs()
 IDs %>% head
@@ -58,11 +63,14 @@ imageID = structureToImage(datasetID = datasetID, regionIDs = granuleID)
 # get the closest atlas image. 
 atlasID = imageToAtlas(imageID$section.image.id,imageID$x,imageID$y,planeOfSection ='sagittal')
 
+# decide how much to you wish to downsample
+downsample = 2
+
 # download the slide
 downloadImage(imageID = imageID$section.image.id, 
              view = 'projection',
              outputFile = 'README_files/image.jpg',
-             downsample = 2)
+             downsample = downsample)
 ```
 
 ![](README_files/image.jpg)
@@ -71,14 +79,12 @@ downloadImage(imageID = imageID$section.image.id,
 # download the atlas
 downloadAtlas(imageID = atlasID$section.image.id, 
              outputFile = 'README_files/atlas.jpg',
-             downsample = 2)
+             downsample = downsample)
 ```
 
 ![](README_files/atlas.jpg)
 
-If `magick` is installed you can output a `magick-image` object by setting `outputFile = NULL`
-
-If `magick` is installed images can be centered by providing center coordinates of a brain region. Input is either a file path or a `magick-image` object
+Images can be centered by providing center coordinates of a brain region. Input is either a file path or a `magick-image` object
 
 ``` r
 # crop the slide so that the desired brain region is in the center
@@ -88,7 +94,7 @@ centerImage(image = 'README_files/image.jpg',
             xProportions = c(.1,.1),
             yProportions =c(.1,.1),
             outputFile = 'README_files/cropped.jpg',
-            downsample = 2)
+            downsample = downsample)
 ```
 
 ![](README_files/cropped.jpg)
@@ -100,10 +106,43 @@ centerImage(image = 'README_files/atlas.jpg',
             xProportions = c(.1,.1),
             yProportions =c(.1,.1),
             outputFile = 'README_files/croppedAtlas.jpg',
-            downsample = 2)
+            downsample = downsample)
 ```
 
-![](README_files/croppedAtlas.jpg)
+![](README_files/croppedAtlas.jpg) \#\#\# Image syncronization
+
+You can get closets points of other slides from the same dataset to get other slides depicting the region
+
+``` r
+# gel all images for Prox1 experiment
+allImages = listImages(datasetID)  %>% arrange(as.numeric(`section.number`))
+
+closeSections = imageToImage2D(imageID$section.image.id,imageID$x,imageID$y,allImages$id)
+
+# dir.create('README_files/allProx1',showWarnings = FALSE)
+
+croppedImage = closeSections %>% apply(1,function(x){
+    # download and crop the images
+    image = downloadImage(imageID = x['section.image.id'], 
+             view = 'projection',
+             # outputFile = file.path('README_files/allProx1',x['section.image.id']),
+             downsample = downsample)
+    
+    centerImage(image = image, 
+            x = x['x'],
+            y= x['y'],
+            xProportions = c(.1,.1),
+            yProportions =c(.1,.1),
+            # outputFile = file.path('README_files/allProx1',x['section.image.id']),
+            downsample = downsample)
+}) %>% do.call(c,.)
+
+
+animation = magick::image_animate(croppedImage, fps = 1)
+magick::image_write(animation, "README_files/Prox1.gif")
+```
+
+![](README_files/Prox1.gif)
 
 ### Region expression data
 

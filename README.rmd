@@ -45,7 +45,7 @@ IDs = getStructureIDs()
 IDs %>% head
 ```
 
-```{r}
+```{r, include = FALSE}
 # get the id of the desired region
 granuleID = IDs['Dentate gyrus, granule cell layer' == IDs$name,]$id
 
@@ -69,7 +69,7 @@ downloadImage(imageID = imageID$section.image.id,
 ```
 ![](README_files/image.jpg)
 
-```{r}
+```{r, include = FALSE}
 # download the atlas
 downloadAtlas(imageID = atlasID$section.image.id, 
              outputFile = 'README_files/atlas.jpg',
@@ -80,7 +80,7 @@ downloadAtlas(imageID = atlasID$section.image.id,
 If `magick` is installed you can output a `magick-image` object by setting `outputFile = NULL`
 
 If `magick` is installed images can be centered by providing center coordinates of a brain region. Input is either a file path or a `magick-image` object
-```{r}
+```{r,include = FALSE}
 # crop the slide so that the desired brain region is in the center
 centerImage(image = 'README_files/image.jpg', 
             x = imageID$x,
@@ -93,7 +93,7 @@ centerImage(image = 'README_files/image.jpg',
 
 ![](README_files/cropped.jpg)
 
-```{r}
+```{r,include = FALSE}
 centerImage(image = 'README_files/atlas.jpg', 
             x = atlasID['x'],
             y= atlasID['y'],

@@ -22,6 +22,11 @@ Install allenBrain to R
 ``` r
 devtools::github_install('oganm/allenBrain')
 ```
+or
+``` r
+devtools::install_github('oganm/allenBrain')
+```
+
 
 Example usage
 -------------

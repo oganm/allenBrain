@@ -20,13 +20,8 @@ install.packages("magick")
 Install allenBrain to R
 
 ``` r
-devtools::github_install('oganm/allenBrain')
-```
-or
-``` r
 devtools::install_github('oganm/allenBrain')
 ```
-
 
 Example usage
 -------------
@@ -118,7 +113,7 @@ centerImage(image = 'README_files/atlas.jpg',
 
 ### Image syncronization
 
-You can get closets points of other slides from the same dataset to get other slides depicting the region
+You can get closest points of other slides from the same dataset to get other slides depicting the region
 
 ``` r
 # gel all images for Prox1 experiment

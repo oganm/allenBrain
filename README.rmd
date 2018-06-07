@@ -25,11 +25,7 @@ Table of Contents
 
 # allenBrain
 
-This R package acquires pictures from Allen Brain Atlas. Cropping and centering images requires magick that is listed in `Suggests` so it won't be automatically installed. Get it by:
-
-```r
-install.packages("magick")
-```
+This R package acquires pictures from Allen Brain Atlas.
 
 Install allenBrain to R
 ``` r

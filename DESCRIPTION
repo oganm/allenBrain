@@ -16,7 +16,9 @@ Suggests:
     testthat
 Enhances: 
 Date: 2015-06-16
-Author: Ogan Mancarci
+Authors@R: c(
+    person("Ogan", "Mancarci", email = "ogan.mancarci@gmail.com", role = c("aut", "cre")),
+    person("Jenny","Yin", role = c('ctb')))
 Maintainer: Ogan Mancarci <ogan.mancarci@gmail.com>
 Description: A package to download ish images from allen brain. Will be
     potentially extended for other parts of the allen brain institute api

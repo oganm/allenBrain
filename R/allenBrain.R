@@ -185,7 +185,8 @@ listGenes = function(ontologyName =c("Mouse Brain Atlas",
     
     names(genes) =names(xml$`ncbi-genes`$`ncbi-gene`) %>% make.names
     
-    genes = data.frame(matrix(unlist(xml$`ncbi-genes`), nrow=length(xml$`ncbi-genes`), byrow=T), stringsAsFactors = FALSE)
+    # genes = data.frame(matrix(unlist(xml$`ncbi-genes`), nrow=length(xml$`ncbi-genes`), byrow=T), stringsAsFactors = FALSE)
+    return(genes)
 }
 
 #' @export

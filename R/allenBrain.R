@@ -126,13 +126,18 @@ downloadImage = function(imageID,outputFile = NULL,view = c('expression','projec
 
 #' Downloads atlas image
 #' @export
-downloadAtlas = function(imageID,outputFile = NULL,downsample = 0){
-    link = glue::glue('http://api.brain-map.org/api/v2/atlas_image_download/{imageID}?downsample={downsample}&annotation=true')
-    image = magick::image_read(link)
-    if(!is.null(outputFile)){
-        magick::image_write(image,outputFile)
-    }
-    return(image)
+downloadAtlas = function (imageID, outputFile = NULL, downsample = 0, atlas = NA) 
+{
+  link = glue::glue("http://api.brain-map.org/api/v2/atlas_image_download/{imageID}?downsample={downsample}&annotation=true")
+  if (!is.na(atlas)) {
+    #some images like Sagittal P56 have to atlas annotations per image (2 = original Hong Wei Dong, 181276165 = Luis Puelles based on developmental anatomy)
+    link = glue::glue(link, "&atlas={atlas}")
+  }
+  image = magick::image_read(link)
+  if (!is.null(outputFile)) {
+    magick::image_write(image, outputFile)
+  }
+  return(image)
 }
 
 

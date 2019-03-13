@@ -2,7 +2,7 @@ Package: allenBrain
 Type: Package
 Title: Acquiring puctures from allen brain atlas
 Version: 1.1.1
-Depends:
+Depends: 
 Imports:
     RCurl,
     RJSONIO,
@@ -16,9 +16,11 @@ Suggests:
     testthat
 Enhances: 
 Date: 2015-06-16
-Author: Ogan Mancarci
+Authors@R: c(
+    person("Ogan", "Mancarci", email = "ogan.mancarci@gmail.com", role = c("aut", "cre")),
+    person("Jenny","Yin", role = c('ctb')))
 Maintainer: Ogan Mancarci <ogan.mancarci@gmail.com>
 Description: A package to download ish images from allen brain. Will be
     potentially extended for other parts of the allen brain institute api
-License: GPL-3
+License: MIT + file LICENSE
 RoxygenNote: 6.0.1

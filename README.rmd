@@ -25,15 +25,11 @@ Table of Contents
 
 # allenBrain
 
-This R package acquires pictures from Allen Brain Atlas. Cropping and centering images requires magick that is listed in `Suggests` so it won't be automatically installed. Get it by:
-
-```r
-install.packages("magick")
-```
+This R package acquires pictures from Allen Brain Atlas.
 
 Install allenBrain to R
 ``` r
-devtools::github_install('oganm/allenBrain')
+devtools::install_github('oganm/allenBrain')
 ```
 
 ## Example usage
@@ -113,7 +109,7 @@ centerImage(image = 'README_files/atlas.jpg',
 
 ### Image syncronization
 
-You can get closets points of other slides from the same dataset to get other slides depicting the region
+You can get closest points of other slides from the same dataset to get other slides depicting the region
 
 ```{r, results=FALSE}
 

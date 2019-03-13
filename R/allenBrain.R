@@ -261,3 +261,33 @@ getStructureExpressions = function(datasetID){
 }
 
 
+
+#' Acquire a table listing all experiments
+#'
+#' @param planeOfSection coronal or sagittal
+#'
+#' @return Table of experiments with gene_symbol, entrez_id, experiment_id, specimen_id
+#' @export
+getAllExperiments = function(planeOfSection) {
+    # get total number of rows (experiments)
+    xml = RCurl::getURL(glue::glue(paste0(
+        "http://api.brain-map.org/api/v2/data/query.xml?criteria=",
+        "model::SectionDataSet,",
+        "rma::criteria,[failed$eqfalse],products[abbreviation$eq'Mouse'],treatments[name$eq'ISH'],plane_of_section[name$eq'{planeOfSection}',genes]",
+        "&num_rows=1&start_row=0"
+    ))) %>% (XML::xmlParse) %>% (XML::xmlToList)
+    totalRows = xml$.attrs['total_rows'] %>% as.integer()
+    totalRows = totalRows + 1 #off by one which seemed to be caused by a duplicate row (Avp gene, sagittal)
+    
+    # download all experiments: gene_symbol, entrez_id, experiment_id, specimen_id
+    RCurl::getURL(glue::glue(paste0(
+        "http://api.brain-map.org/api/v2/data/query.csv?criteria=",
+        "model::SectionDataSet,",
+        "rma::criteria,[failed$eqfalse],products[abbreviation$eq'Mouse'],treatments[name$eq'ISH'],plane_of_section[name$eq'{planeOfSection}'],genes,",
+        "rma::options,",
+        "[tabular$eq'data_sets.id+as+experiment_id','genes.acronym+as+gene_symbol','genes.entrez_id','specimen_id'],",
+        "[order$eq'genes.acronym,data_sets.id']",
+        "&num_rows={totalRows}&start_row=0"
+    ))) %>% read.table(text = ., sep = ",", header = TRUE, stringsAsFactors = FALSE) %>% distinct()
+}
+

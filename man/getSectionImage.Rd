@@ -10,7 +10,7 @@ getSectionImage(imageID)
 \item{imageID}{id of the image}
 }
 \value{
-A list containing all information about Section Image
+A list containing all information about the Section Image
 }
 \description{
 Get section image data for a given ID

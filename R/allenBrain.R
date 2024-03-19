@@ -294,7 +294,7 @@ getAllExperiments = function(planeOfSection) {
 #' Get section image data for a given ID
 #' 
 #' @param imageID id of the image
-#' @return A list containing all information about Section Image
+#' @return A list containing all information about the Section Image
 #' 
 #' @export
 getSectionImage = function(imageID){
@@ -303,3 +303,17 @@ getSectionImage = function(imageID){
     
     return(xml$`section-images`[[1]])
 }
+
+#' Get atlas image data for a given ID
+#' 
+#' @param imageID id of the image
+#' @return A list containing all information about the Atlas Image
+#' 
+#' @export
+getAtlasImage = function(imageID){
+    xml = RCurl::getURL(glue::glue("https://api.brain-map.org/api/v2/data/AtlasImage/query.xml?id={imageID}")) %>%
+        (XML::xmlParse) %>% (XML::xmlToList)
+    
+    return(xml$`atlas-images`[[1]])
+}
+

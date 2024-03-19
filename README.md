@@ -1,15 +1,13 @@
 
-Table of Contents
-=================
+# Table of Contents
 
--   [allenBrain](#allenbrain)
-    -   [Example usage](#example-usage)
-        -   [Image acquisition](#image-acquisition)
-        -   [Region expression data](#region-expression-data)
-        -   [Incomplete stuff](#incomplete-stuff)
+- [allenBrain](#allenbrain)
+  - [Example usage](#example-usage)
+    - [Image acquisition](#image-acquisition)  
+    - [Region expression data](#region-expression-data)  
+    - [Incomplete stuff](#incomplete-stuff)
 
-allenBrain
-==========
+# allenBrain
 
 This R package acquires pictures from Allen Brain Atlas.
 
@@ -19,12 +17,12 @@ Install allenBrain to R
 devtools::install_github('oganm/allenBrain')
 ```
 
-Example usage
--------------
+## Example usage
 
 ### Image acquisition
 
-You can use `downloadImage` and `downloadAtlas` functions to get images. Output of these functions are `magick-image` objects
+You can use `downloadImage` and `downloadAtlas` functions to get images.
+Output of these functions are `magick-image` objects
 
 ``` r
 library(dplyr)
@@ -80,7 +78,8 @@ downloadAtlas(imageID = atlasID$section.image.id,
 
 ![](README_files/atlas.jpg)
 
-Images can be centered by providing center coordinates of a brain region. Input is either a file path or a `magick-image` object
+Images can be centered by providing center coordinates of a brain
+region. Input is either a file path or a `magick-image` object
 
 ``` r
 # crop the slide so that the desired brain region is in the center
@@ -107,9 +106,39 @@ centerImage(image = 'README_files/atlas.jpg',
 
 ![](README_files/croppedAtlas.jpg)
 
+### Adding a scale to the image
+
+`getSectionImage` function returns all available information about an
+image. We can use this to access the resolution information which lists
+micron/pixel ratio in a given image.
+
+``` r
+(image_res = getSectionImage(imageID$section.image.id)$resolution)
+```
+
+    ## [1] "1.049"
+
+We can then use the `add_scale` function to add a scale
+
+``` r
+downloadImage(imageID = imageID$section.image.id, 
+             view = 'projection',
+             downsample = downsample) %>% 
+    centerImage(x = imageID$x,
+            y= imageID$y,
+            xProportions = c(.1,.1),
+            yProportions =c(.1,.1),
+            outputFile = 'README_files/cropped.jpg',
+            downsample = downsample) %>% 
+    add_scale(image_res,downsample)
+```
+
+<img src="README_files/figure-gfm/unnamed-chunk-7-1.png" width="596" />
+
 ### Image syncronization
 
-You can get closest points of other slides from the same dataset to get other slides depicting the region
+You can get closest points of other slides from the same dataset to get
+other slides depicting the region
 
 ``` r
 # gel all images for Prox1 experiment
@@ -144,7 +173,8 @@ magick::image_write(animation, "README_files/Prox1.gif")
 
 ### Region expression data
 
-Region expression can be acquired by datasetID. Data displayed in ABA web portals is expression.energy.
+Region expression can be acquired by datasetID. Data displayed in ABA
+web portals is expression.energy.
 
 ``` r
 head(getStructureExpressions(datasetID))
@@ -185,29 +215,30 @@ head(getStructureExpressions(datasetID))
     ## 4                       3          15567         secondary prosencephalon
     ## 5                       3          15568 rostral secondary prosencephalon
     ## 6                       3          15569           preoptic telencephalon
-    ##   structure.ontology.id              structure.safe.name
-    ## 1                    12                     Mus musculus
-    ## 2                    12                     neural plate
-    ## 3                    12                        forebrain
-    ## 4                    12         secondary prosencephalon
-    ## 5                    12 rostral secondary prosencephalon
-    ## 6                    12           preoptic telencephalon
-    ##   structure.st.level           structure.structure.id.path
-    ## 1                 -1                               /15564/
-    ## 2                  0                         /15564/15565/
-    ## 3                  1                   /15564/15565/15566/
-    ## 4                  2             /15564/15565/15566/15567/
-    ## 5                  3       /15564/15565/15566/15567/15568/
-    ## 6                  4 /15564/15565/15566/15567/15568/15569/
-    ##   structure.structure.name.facet structure.weight
-    ## 1                     3843147059             8390
-    ## 2                     3041346888             8390
-    ## 3                     2526114016             8390
-    ## 4                      333870831             8390
-    ## 5                     2675393843             8390
-    ## 6                     2617066679             8390
+    ##   structure.ontology.id              structure.safe.name structure.st.level
+    ## 1                    12                     Mus musculus                 -1
+    ## 2                    12                     neural plate                  0
+    ## 3                    12                        forebrain                  1
+    ## 4                    12         secondary prosencephalon                  2
+    ## 5                    12 rostral secondary prosencephalon                  3
+    ## 6                    12           preoptic telencephalon                  4
+    ##             structure.structure.id.path structure.structure.name.facet
+    ## 1                               /15564/                     3843147059
+    ## 2                         /15564/15565/                     3041346888
+    ## 3                   /15564/15565/15566/                     2526114016
+    ## 4             /15564/15565/15566/15567/                      333870831
+    ## 5       /15564/15565/15566/15567/15568/                     2675393843
+    ## 6 /15564/15565/15566/15567/15568/15569/                     2617066679
+    ##   structure.weight
+    ## 1             8390
+    ## 2             8390
+    ## 3             8390
+    ## 4             8390
+    ## 5             8390
+    ## 6             8390
 
-If you want to get all genes, use `listGenes` to get all available genes for the species. Then do `getGeneDatasets`.
+If you want to get all genes, use `listGenes` to get all available genes
+for the species. Then do `getGeneDatasets`.
 
 ``` r
 genes = listGenes()
@@ -215,7 +246,8 @@ genes = listGenes()
 geneDatasets = genes$acronym[1:10] %>% lapply(getGeneDatasets)
 ```
 
-You may want to limit your search space as getting the data for all genes is a slow process.
+You may want to limit your search space as getting the data for all
+genes is a slow process.
 
 ### Incomplete stuff
 

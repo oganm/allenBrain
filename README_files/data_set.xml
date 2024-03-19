@@ -14,7 +14,7 @@
   <rnaseq-design-id nil="true"/>
   <section-thickness>25.0</section-thickness>
   <specimen-id>68870790</specimen-id>
-  <sphinx-id>156366</sphinx-id>
+  <sphinx-id>157167</sphinx-id>
   <storage-directory>/external/aibssan/production32/prod327/image_series_69289763/</storage-directory>
   <weight>5470</weight>
   <products>
@@ -62,7 +62,7 @@
     <pinned-radius type="float" nil="true"/>
     <rna-integrity-number type="float" nil="true"/>
     <specimen-id-path>/68870790/</specimen-id-path>
-    <sphinx-id type="integer">20608</sphinx-id>
+    <sphinx-id type="integer">22495</sphinx-id>
     <structure-id type="integer" nil="true"/>
     <tissue-ph type="float" nil="true"/>
     <treatment-id type="integer" nil="true"/>
@@ -123,6 +123,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207012100/0207012100_6_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">6705</height>
@@ -155,6 +156,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207012100/0207012100_14_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">6737</height>
@@ -187,6 +189,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207012100/0207012100_22_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7217</height>
@@ -219,6 +222,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207012100/0207012100_30_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7297</height>
@@ -251,6 +255,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207022023/0207022023_38_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7441</height>
@@ -283,6 +288,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207022023/0207022023_46_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">6721</height>
@@ -315,6 +321,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207022023/0207022023_54_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7361</height>
@@ -347,6 +354,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207022023/0207022023_62_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7201</height>
@@ -379,6 +387,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207032292/0207032292_70_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7553</height>
@@ -411,6 +420,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207032292/0207032292_78_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7681</height>
@@ -443,6 +453,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207032292/0207032292_86_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7825</height>
@@ -475,6 +486,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207042032/0207042032_102_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7889</height>
@@ -507,6 +519,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207042032/0207042032_118_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">8337</height>
@@ -539,6 +552,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207042032/0207042032_126_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">8001</height>
@@ -571,6 +585,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207052977/0207052977_134_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">9057</height>
@@ -603,6 +618,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207052977/0207052977_142_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">8129</height>
@@ -635,6 +651,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207052977/0207052977_150_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7665</height>
@@ -667,6 +684,7 @@
       <axes nil="true"/>
       <bits-per-component type="integer">8</bits-per-component>
       <data-set-id type="integer">69289763</data-set-id>
+      <expression type="boolean" nil="true"/>
       <expression-path>/external/aibssan/production32/prod91/0207052977/0207052977_158_expression.aff</expression-path>
       <failed type="boolean">false</failed>
       <height type="integer">7585</height>

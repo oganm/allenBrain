@@ -4,7 +4,7 @@
 \alias{downloadAtlas}
 \title{Downloads atlas image}
 \usage{
-downloadAtlas(imageID, outputFile = NULL, downsample = 0)
+downloadAtlas(imageID, outputFile = NULL, downsample = 0, atlas = NA)
 }
 \description{
 Downloads atlas image

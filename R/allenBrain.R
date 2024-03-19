@@ -111,7 +111,6 @@ downloadImage = function(imageID,outputFile = NULL,view = c('expression','projec
                                       '?downsample=',
                                       downsample,
                                       '&view=',view))
-    
     if(!is.null(outputFile)){
         magick::image_write(image,path = outputFile)
     }
@@ -291,3 +290,16 @@ getAllExperiments = function(planeOfSection) {
     ))) %>% read.table(text = ., sep = ",", header = TRUE, stringsAsFactors = FALSE) %>% distinct()
 }
 
+
+#' Get section image data for a given ID
+#' 
+#' @param imageID id of the image
+#' @return A list containing all information about Section Image
+#' 
+#' @export
+getSectionImage = function(imageID){
+    xml = RCurl::getURL(glue::glue("https://api.brain-map.org/api/v2/data/SectionImage/query.xml?id={imageID}")) %>%
+                      (XML::xmlParse) %>% (XML::xmlToList)
+    
+    return(xml$`section-images`[[1]])
+}

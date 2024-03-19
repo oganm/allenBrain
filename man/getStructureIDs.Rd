@@ -4,10 +4,12 @@
 \alias{getStructureIDs}
 \title{Acquire a list of structure ids}
 \usage{
-getStructureIDs(ontologyName = c("Mouse Brain Atlas",
-  "Developing Mouse Brain Atlas", "Human Brain Atlas",
-  "Developing Human Brain Atlas", "Non-Human Primate Brain Atlas",
-  "Glioblastoma"), graphID = NULL)
+getStructureIDs(
+  ontologyName = c("Mouse Brain Atlas", "Developing Mouse Brain Atlas",
+    "Human Brain Atlas", "Developing Human Brain Atlas", "Non-Human Primate Brain Atlas",
+    "Glioblastoma"),
+  graphID = NULL
+)
 }
 \arguments{
 \item{ontologyName}{name of the ontology to download}

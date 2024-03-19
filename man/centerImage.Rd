@@ -4,8 +4,15 @@
 \alias{centerImage}
 \title{Center and crop the image}
 \usage{
-centerImage(image, x, y, xProportions = c(0.1, 0.1), yProportions = c(0.1,
-  0.1), outputFile = NULL, downsample = 0)
+centerImage(
+  image,
+  x,
+  y,
+  xProportions = c(0.1, 0.1),
+  yProportions = c(0.1, 0.1),
+  outputFile = NULL,
+  downsample = 0
+)
 }
 \arguments{
 \item{image}{a file path as a character or a magick-image}

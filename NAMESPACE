@@ -2,10 +2,13 @@
 
 export("%<>%")
 export("%>%")
+export(add_scale)
 export(centerImage)
 export(downloadAtlas)
 export(downloadImage)
+export(getAllExperiments)
 export(getGeneDatasets)
+export(getSectionImage)
 export(getStructureExpressions)
 export(getStructureIDs)
 export(gridData)

@@ -4,8 +4,12 @@
 \alias{downloadImage}
 \title{Download the image from ABA}
 \usage{
-downloadImage(imageID, outputFile = NULL, view = c("expression",
-  "projection"), downsample = 0)
+downloadImage(
+  imageID,
+  outputFile = NULL,
+  view = c("expression", "projection"),
+  downsample = 0
+)
 }
 \arguments{
 \item{imageID}{id of an image acquired from getImageID function}

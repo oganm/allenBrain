@@ -70,7 +70,7 @@ add_scale = function(image, resolution, downsample,
     scale_height = round(scale_width/20)
     
     # just a 1x1 black pixel...
-    black = magick::image_read(system.file('black.png',package = 'allenBrain'))
+    black = magick::image_read(structure(c(0, 0, 0), dim = c(1L, 1L, 3L)))
     # extend to turn into a line of appropriate size
     black = magick::image_extent(black,glue::glue('{scale_width}x{scale_height}'),color='black')
     black = magick::image_extent(black,glue::glue("{scale_width}x{scale_height*20}"),color = 'white',gravity= 'North')

@@ -192,7 +192,7 @@ You may want to limit your search space as getting the data for all genes is a s
 
 
 Grid data of a dataset can be downloaded by `gridData` function
-```{r}
+```{r,eval= FALSE}
 gridData(datasetID = datasetID,
          outputFile ='README_files/Prox1_data.zip',
          include = c('energy','density','intensity'))
